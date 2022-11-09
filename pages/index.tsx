@@ -5,6 +5,7 @@ import Header from "../components/Header";
 import Banner from "../components/Banner";
 import requests from "../utils/requests";
 import { Movie } from "../typings";
+import Row from "../components/Row";
 
 export const getServerSideProps = async () => {
   const [
@@ -78,7 +79,9 @@ const Home = ({
       <Header />
       <main className="relative lg:pt-16 pl-8 pb-24 lg:space-y-24">
         <Banner netflixOriginals={netflixOriginals} />
-        <section>{/* Row */}</section>
+        <section>
+          <Row/>
+          </section>
       </main>
       {/* Modal */}
     </div>
