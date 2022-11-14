@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { signInWithPopup } from "firebase/auth";
+import useAuth from "../hooks/useAuth";
 
 interface Inputs {
   email: string;
@@ -12,17 +13,20 @@ interface Inputs {
 
 function Login() {
   const [login, setLogin] = useState(false);
+  const { signIn, signUp, logout } = useAuth();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = async ({email,password}) => {
-    // if (login) {
-    //   await signIn(email,password)
-    // }else {
-    //   await signUp(email,password)
-    // }
+
+  const onSubmit: SubmitHandler<Inputs> = async ({ email, password }) => {
+    if (login) {
+      await signIn(email, password);
+    } else {
+      await signUp(email, password);
+    }
   };
 
   return (
