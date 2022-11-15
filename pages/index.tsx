@@ -74,7 +74,7 @@ const Home = ({
    return <h1>Loading</h1>;
   }
   return (
-    <div className="relative h-screen bg-gradient-to-b lg:h-[140vh]">
+    <div className={`relative h-screen bg-gradient-to-b lg:h-[140vh] ${showModal && '!h-screen overflow-hidden'}`}>
       <Head>
         <title>Netflix Clone</title>
         <link rel="icon" href="/favicon.ico" />
