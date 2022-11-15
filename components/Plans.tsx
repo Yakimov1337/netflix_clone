@@ -1,17 +1,28 @@
 import Head from "next/head";
 import Link from "next/link";
 import React, { useState } from "react";
-import useAuth from "../hooks/useAuth";
 import { CheckIcon } from "@heroicons/react/24/outline";
 import { Product } from "@stripe/firestore-stripe-payments";
+import { ThreeCircles } from "react-loader-spinner";
+
+import useAuth from "../hooks/useAuth";
 import Table from "./Table";
+import Loader from "./Loader";
+import { loadCheckout } from "../lib/stripe";
 
 interface Props {
   products: Product[];
 }
 function Plans({ products }: Props) {
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
   const [selectedPlan, setSelectedPlan] = useState<Product | null>(products[2]);
+  const [isBillingLoading, setBillingLoading] = useState(false);
+
+  const subscribeToPlan = () => {
+    if (!user) return;
+    loadCheckout(selectedPlan?.prices[0].id!);
+    setBillingLoading(true);
+  };
 
   return (
     <div>
@@ -70,7 +81,30 @@ function Plans({ products }: Props) {
             ))}
           </div>
           <Table products={products} selectedPlan={selectedPlan} />
-          <button>Subscribe</button>
+          <button
+            disabled={!selectedPlan || isBillingLoading}
+            className={`mx-auto w-11/12 rounded bg-[#E50914] py-4 text-xl shadow hover:bg-[#f6121d] md:w-[420px] ${
+              isBillingLoading && "opacity-60"
+            }`}
+            onClick={subscribeToPlan}
+          >
+            {isBillingLoading ? (
+                <ThreeCircles
+                  height="25"
+                  width="25"
+                  color="white"
+                  wrapperStyle={{justifyContent:'center'}}
+                  wrapperClass=""
+                  visible={true}
+                  ariaLabel="three-circles-rotating"
+                  outerCircleColor=""
+                  innerCircleColor=""
+                  middleCircleColor=""
+                />
+            ) : (
+              "Subscribe"
+            )}
+          </button>
         </div>
       </main>
     </div>
