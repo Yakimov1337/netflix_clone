@@ -88,7 +88,7 @@ const Home = ({
     return <h1>Loading</h1>;
   }
   if (!subscription) {
-    return <Plans />;
+    return <Plans products={products} />;
   }
 
   return (
