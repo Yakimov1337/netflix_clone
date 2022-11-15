@@ -153,9 +153,9 @@ function Modal() {
             </div>
             <button className="modalButton" onClick={() => setMuted(!muted)}>
               {muted ? (
-                <SpeakerWaveIcon className="h-6 w-6" />
-              ) : (
-                <SpeakerXMarkIcon className="h-6 w-6" />
+                  <SpeakerXMarkIcon className="h-6 w-6" />
+                  ) : (
+                  <SpeakerWaveIcon className="h-6 w-6" />
               )}
             </button>
           </div>
