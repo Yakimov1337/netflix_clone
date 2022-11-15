@@ -10,6 +10,7 @@ import useAuth from "../hooks/useAuth";
 import { useRecoilValue } from "recoil";
 import { modalState } from "../atoms/modalAtoms";
 import Modal from "../components/Modal";
+import Plans from "../components/Plans";
 
 export const getServerSideProps = async () => {
   const [
@@ -68,13 +69,23 @@ const Home = ({
   trendingNow,
 }: Props) => {
   const { logout, loading } = useAuth();
-  const showModal = useRecoilValue(modalState)
+  const showModal = useRecoilValue(modalState);
+  const subscription = false;
 
-  if (loading) {
-   return <h1>Loading</h1>;
+  if (loading || subscription == null) {
+    return <h1>Loading</h1>;
   }
+  if (!subscription) {
+    return <Plans/>;
+  }
+
+  
   return (
-    <div className={`relative h-screen bg-gradient-to-b lg:h-[140vh] ${showModal && '!h-screen overflow-hidden'}`}>
+    <div
+      className={`relative h-screen bg-gradient-to-b lg:h-[140vh] ${
+        showModal && "!h-screen overflow-hidden"
+      }`}
+    >
       <Head>
         <title>Netflix Clone</title>
         <link rel="icon" href="/favicon.ico" />
@@ -92,7 +103,7 @@ const Home = ({
           <Row title="Documentaries" movies={documentaries} />
         </section>
       </main>
-      {showModal && <Modal/>}
+      {showModal && <Modal />}
     </div>
   );
 };
