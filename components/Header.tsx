@@ -1,5 +1,6 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { BellIcon } from "@heroicons/react/24/solid";
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import useAuth from "../hooks/useAuth";
@@ -48,9 +49,11 @@ function Header() {
         <MagnifyingGlassIcon className="hidden h-6 w-6 sm:inline" />
         <p className="hidden lg:inline">Kids</p>
         <BellIcon className="h-6 w-6" />
-        <img
+        <Image
           onClick={logout}
           src="https://rb.gy/g1pwyx"
+          width={25}
+          height={25}
           alt=""
           className="cursor-pointer rounded"
         />
