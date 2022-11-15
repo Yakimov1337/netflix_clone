@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Image from "next/legacy/image";
+import { getProducts, Product } from "@stripe/firestore-stripe-payments";
 
 import Header from "../components/Header";
 import Banner from "../components/Banner";
@@ -11,8 +12,16 @@ import { useRecoilValue } from "recoil";
 import { modalState } from "../atoms/modalAtoms";
 import Modal from "../components/Modal";
 import Plans from "../components/Plans";
+import payments from "../lib/stripe";
 
 export const getServerSideProps = async () => {
+  const products = await getProducts(payments, {
+    includePrices: true,
+    activeOnly: true,
+  })
+    .then((res) => res)
+    .catch((err) => console.log(err.message));
+
   const [
     netflixOriginals,
     trendingNow,
@@ -43,6 +52,7 @@ export const getServerSideProps = async () => {
       romanceMovies: romanceMovies.results,
       horrorMovies: horrorMovies.results,
       documentaries: documentaries.results,
+      products,
     },
   };
 };
@@ -56,6 +66,7 @@ interface Props {
   horrorMovies: Movie[];
   romanceMovies: Movie[];
   documentaries: Movie[];
+  products: Product[];
 }
 
 const Home = ({
@@ -67,6 +78,7 @@ const Home = ({
   romanceMovies,
   topRated,
   trendingNow,
+  products,
 }: Props) => {
   const { logout, loading } = useAuth();
   const showModal = useRecoilValue(modalState);
@@ -76,10 +88,9 @@ const Home = ({
     return <h1>Loading</h1>;
   }
   if (!subscription) {
-    return <Plans/>;
+    return <Plans />;
   }
 
-  
   return (
     <div
       className={`relative h-screen bg-gradient-to-b lg:h-[140vh] ${
