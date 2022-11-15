@@ -21,7 +21,7 @@ function Table({ products, selectedPlan }: Props) {
                   : "text-[gray]"
               }`}
             >
-              USD {product.prices[0].unit_amount! / 100}
+               {product.prices[0].unit_amount!.toFixed(2) }$ USD
             </td>
           ))}
         </tr>
