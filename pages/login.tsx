@@ -1,6 +1,6 @@
 import React from "react";
 import Head from "next/head";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { signInWithPopup } from "firebase/auth";
