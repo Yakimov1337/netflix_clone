@@ -36,7 +36,7 @@ function Plans({ products }: Props) {
           Sign Out
         </button>
       </header>
-      <main className="pt-28 max-w-5xl pb-12 transition-all md:px-10">
+      <main className="mx-auto pt-28 max-w-5xl pb-12 transition-all md:px-10">
         <h1 className="mb-3 text-3xl font-medium">
           Choose the plan that's right for you
         </h1>
