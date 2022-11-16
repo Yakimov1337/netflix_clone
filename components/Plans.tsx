@@ -7,7 +7,6 @@ import { ThreeCircles } from "react-loader-spinner";
 
 import useAuth from "../hooks/useAuth";
 import Table from "./Table";
-import Loader from "./Loader";
 import { loadCheckout } from "../lib/stripe";
 
 interface Props {
