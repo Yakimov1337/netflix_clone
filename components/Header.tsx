@@ -4,6 +4,7 @@ import Image from "next/legacy/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import useAuth from "../hooks/useAuth";
+import BasicMenu from "./BasicMenu";
 
 function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -35,7 +36,7 @@ function Header() {
           className="cursor-pointer object-contain"
           alt=""
         />
-
+        <BasicMenu />
         <ul className="hidden space-x-4 md:flex ">
           <li className="headerLink">Home</li>
           <li className="headerLink">TV Shows</li>
@@ -49,14 +50,15 @@ function Header() {
         <MagnifyingGlassIcon className="hidden h-6 w-6 sm:inline" />
         <p className="hidden lg:inline">Kids</p>
         <BellIcon className="h-6 w-6" />
-        <Image
-          onClick={logout}
-          src="https://rb.gy/g1pwyx"
-          width={25}
-          height={25}
-          alt=""
-          className="cursor-pointer rounded"
-        />
+        <Link href="/account">
+          <Image
+            src="https://rb.gy/g1pwyx"
+            width={25}
+            height={25}
+            alt=""
+            className="cursor-pointer rounded "
+          />
+        </Link>
       </div>
     </header>
   );
