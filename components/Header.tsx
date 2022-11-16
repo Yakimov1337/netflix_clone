@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import useAuth from "../hooks/useAuth";
 import BasicMenu from "./BasicMenu";
+import Profile from "./Profile";
 
 function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -50,7 +51,7 @@ function Header() {
         <MagnifyingGlassIcon className="hidden h-6 w-6 sm:inline" />
         <p className="hidden lg:inline">Kids</p>
         <BellIcon className="h-6 w-6" />
-        <Link href="/account">
+        {/* <Link href="/account">
           <Image
             src="https://rb.gy/g1pwyx"
             width={25}
@@ -58,7 +59,8 @@ function Header() {
             alt=""
             className="cursor-pointer rounded "
           />
-        </Link>
+        </Link> */}
+        <Profile/>
       </div>
     </header>
   );
