@@ -9,11 +9,12 @@ import { Movie } from "../typings";
 import Row from "../components/Row";
 import useAuth from "../hooks/useAuth";
 import { useRecoilValue } from "recoil";
-import { modalState } from "../atoms/modalAtoms";
+import { modalState, movieState } from "../atoms/modalAtoms";
 import Modal from "../components/Modal";
 import Plans from "../components/Plans";
 import payments from "../lib/stripe";
 import useSubscription from "../hooks/useSubscription";
+import useList from "../hooks/useList";
 
 export const getServerSideProps = async () => {
   const products = await getProducts(payments, {
@@ -84,6 +85,8 @@ const Home = ({
   const { logout, loading,user } = useAuth();
   const showModal = useRecoilValue(modalState);
   const subscription = useSubscription(user);
+  const movie = useRecoilValue(movieState);
+  const list = useList(user?.uid)
 
   if (loading) {
     return <h1>Loading</h1>;
@@ -114,6 +117,7 @@ const Home = ({
           <Row title="Scary Movies" movies={horrorMovies} />
           <Row title="Romance Movies" movies={romanceMovies} />
           <Row title="Documentaries" movies={documentaries} />
+          {list.length>0&&<Row title="My List" movies={list}/>}
         </section>
       </main>
       {showModal && <Modal />}
