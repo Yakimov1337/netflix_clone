@@ -14,7 +14,6 @@ interface Props {
 }
 
 function Account({ products }: Props) {
-  console.log(products);
   const { user, logout, loading } = useAuth();
   const subscription = useSubscription(user);
   const [isBillingLoading, setBillingLoading] = useState(false);
@@ -38,15 +37,12 @@ function Account({ products }: Props) {
             alt=""
           />
         </Link>
-        <Link href="/account">
-          <Image
-            width={25}
-            height={25}
-            src="https://rb.gy/g1pwyx"
-            alt=""
-            className="cursor-pointer rounded"
-          />
-        </Link>
+        <button
+          onClick={logout}
+          className="text-lg font-medium hover:underline"
+        >
+          Sign Out
+        </button>
       </header>
       <main className="mx-auto max-w-6xl px-5 pt-24 pb-12 transition-all md:px-10">
         <div className="flex flex-col gap-x-4 md:flex-row md:items-center">
