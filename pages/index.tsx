@@ -13,6 +13,7 @@ import { modalState } from "../atoms/modalAtoms";
 import Modal from "../components/Modal";
 import Plans from "../components/Plans";
 import payments from "../lib/stripe";
+import useSubscription from "../hooks/useSubscription";
 
 export const getServerSideProps = async () => {
   const products = await getProducts(payments, {
@@ -80,12 +81,13 @@ const Home = ({
   trendingNow,
   products,
 }: Props) => {
-  const { logout, loading } = useAuth();
+  const { logout, loading,user } = useAuth();
   const showModal = useRecoilValue(modalState);
-  const subscription = false;
+  const subscription = useSubscription(user);
 
-  if (loading || subscription == null) {
+  if (loading) {
     return <h1>Loading</h1>;
+
   }
   if (!subscription) {
     return <Plans products={products} />;
