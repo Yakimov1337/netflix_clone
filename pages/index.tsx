@@ -82,15 +82,14 @@ const Home = ({
   trendingNow,
   products,
 }: Props) => {
-  const { logout, loading,user } = useAuth();
+  const { logout, loading, user } = useAuth();
   const showModal = useRecoilValue(modalState);
   const subscription = useSubscription(user);
   const movie = useRecoilValue(movieState);
-  const list = useList(user?.uid)
+  const list = useList(user?.uid);
 
-  if (loading) {
+  if (loading || subscription == null) {
     return <h1>Loading</h1>;
-
   }
   if (!subscription) {
     return <Plans products={products} />;
@@ -103,7 +102,9 @@ const Home = ({
       }`}
     >
       <Head>
-        <title>Netflix Clone</title>
+        <title>
+          {movie?.title || movie?.original_name || "Home"} - Netflix
+        </title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
@@ -117,7 +118,7 @@ const Home = ({
           <Row title="Scary Movies" movies={horrorMovies} />
           <Row title="Romance Movies" movies={romanceMovies} />
           <Row title="Documentaries" movies={documentaries} />
-          {list.length>0&&<Row title="My List" movies={list}/>}
+          {list.length > 0 && <Row title="My List" movies={list} />}
         </section>
       </main>
       {showModal && <Modal />}
