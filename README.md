@@ -1,2 +1,1 @@
-# netflix_clone
- 
+Screenshot_36.png
