@@ -35,7 +35,7 @@ export default function AccountMenu() {
             aria-expanded={open ? "true" : undefined}
           >
             <Image
-              src="https://rb.gy/g1pwyx"
+              src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png"
               width={25}
               height={25}
               alt=""
