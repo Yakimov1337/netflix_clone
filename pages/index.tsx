@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Image from "next/legacy/image";
 import { getProducts, Product } from "@stripe/firestore-stripe-payments";
+import { doc, getDoc } from "firebase/firestore";
 
 import Header from "../components/Header";
 import Banner from "../components/Banner";
@@ -9,12 +10,14 @@ import { Movie } from "../typings";
 import Row from "../components/Row";
 import useAuth from "../hooks/useAuth";
 import { useRecoilValue } from "recoil";
-import { modalState, movieState } from "../atoms/modalAtoms";
+import { freeSub, modalState, movieState } from "../atoms/modalAtoms";
 import Modal from "../components/Modal";
 import Plans from "../components/Plans";
 import payments from "../lib/stripe";
 import useSubscription from "../hooks/useSubscription";
 import useList from "../hooks/useList";
+import { db } from "../firebase";
+import { useEffect, useState } from "react";
 
 export const getServerSideProps = async () => {
   const products = await getProducts(payments, {
@@ -83,17 +86,21 @@ const Home = ({
   products,
 }: Props) => {
   const { logout, loading, user } = useAuth();
-  const showModal = useRecoilValue(modalState);
   const subscription = useSubscription(user);
+  const showModal = useRecoilValue(modalState);
+  const trial = useRecoilValue(freeSub);
   const movie = useRecoilValue(movieState);
   const list = useList(user?.uid);
+ 
 
-  if (loading || subscription === null) return null
   
-  if (!subscription) {
+  
+  if (loading || subscription === null) return null;
+  
+  //If user has no paid plan or trial activated, render plans
+  if (!subscription && !trial) {
     return <Plans products={products} />;
   }
-
   return (
     <div
       className={`relative h-screen bg-gradient-to-b lg:h-[140vh] ${

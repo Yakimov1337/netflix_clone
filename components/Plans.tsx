@@ -8,6 +8,8 @@ import { ThreeCircles } from "react-loader-spinner";
 import useAuth from "../hooks/useAuth";
 import Table from "./Table";
 import { loadCheckout } from "../lib/stripe";
+import { useRecoilState } from "recoil";
+import { freeSub } from "../atoms/modalAtoms";
 
 interface Props {
   products: Product[];
@@ -16,8 +18,9 @@ function Plans({ products }: Props) {
   const { logout, user } = useAuth();
   const [selectedPlan, setSelectedPlan] = useState<Product | null>(products[2]);
   const [isBillingLoading, setBillingLoading] = useState(false);
+  const [trial, setTrial] = useRecoilState(freeSub);
 
-  const subscribeToPlan = () => {
+  const subscribeToPlan = async () => {
     if (!user) return;
     loadCheckout(selectedPlan?.prices[0].id!);
     setBillingLoading(true);
@@ -88,20 +91,44 @@ function Plans({ products }: Props) {
             onClick={subscribeToPlan}
           >
             {isBillingLoading ? (
-                <ThreeCircles
-                  height="25"
-                  width="25"
-                  color="white"
-                  wrapperStyle={{justifyContent:'center'}}
-                  wrapperClass=""
-                  visible={true}
-                  ariaLabel="three-circles-rotating"
-                  outerCircleColor=""
-                  innerCircleColor=""
-                  middleCircleColor=""
-                />
+              <ThreeCircles
+                height="25"
+                width="25"
+                color="white"
+                wrapperStyle={{ justifyContent: "center" }}
+                wrapperClass=""
+                visible={true}
+                ariaLabel="three-circles-rotating"
+                outerCircleColor=""
+                innerCircleColor=""
+                middleCircleColor=""
+              />
             ) : (
               "Subscribe"
+            )}
+          </button>
+          <button
+            disabled={!selectedPlan || isBillingLoading}
+            className={`mx-auto w-11/12 rounded bg-[#1f75f8] py-4 text-xl shadow hover:bg-[#4795e3] md:w-[420px] ${
+              isBillingLoading && "opacity-60"
+            }`}
+            onClick={() => setTrial(true)}
+          >
+            {isBillingLoading ? (
+              <ThreeCircles
+                height="25"
+                width="25"
+                color="white"
+                wrapperStyle={{ justifyContent: "center" }}
+                wrapperClass=""
+                visible={true}
+                ariaLabel="three-circles-rotating"
+                outerCircleColor=""
+                innerCircleColor=""
+                middleCircleColor=""
+              />
+            ) : (
+              "Click for free session"
             )}
           </button>
         </div>
