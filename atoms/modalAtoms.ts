@@ -7,6 +7,11 @@ export const modalState = atom({
   default: false,
 })
 
+export const freeSub = atom({
+  key: 'freeSub',
+  default: false,
+})
+
 export const movieState = atom<Movie | DocumentData | null>({
   key: 'movieState',
   default: null,
