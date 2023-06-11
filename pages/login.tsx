@@ -5,6 +5,8 @@ import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { signInWithPopup } from "firebase/auth";
 import useAuth from "../hooks/useAuth";
+import { useRecoilState } from "recoil";
+import { freeSub } from "../atoms/modalAtoms";
 
 interface Inputs {
   email: string;
@@ -13,6 +15,7 @@ interface Inputs {
 
 function Login() {
   const [login, setLogin] = useState(false);
+  const [guest, setGuest] = useState(false);
   const { signIn, signUp, logout } = useAuth();
 
   const {
@@ -22,12 +25,18 @@ function Login() {
   } = useForm<Inputs>();
 
   const onSubmit: SubmitHandler<Inputs> = async ({ email, password }) => {
-    if (login) {
-      await signIn(email, password);
+    if (guest) {
+      await signIn("guest@abv.bg", "guest123");
     } else {
-      await signUp(email, password);
+      if (login) {
+        await signIn(email, password);
+      } else {
+        await signUp(email, password);
+      }
     }
   };
+
+  const handleFreeLogin: any = async () => {};
 
   return (
     <div className="relative flex h-screen w-screen flex-col bg-black md:items-center md:justify-center md:bg-transparent">
@@ -62,7 +71,7 @@ function Login() {
               type="email"
               placeholder="Email"
               className="input"
-              {...register("email", { required: true })}
+              {...register("email")}
             />
             {errors.email && (
               <p className="p-1 text-[13px] font-light text-orange-500">
@@ -75,7 +84,7 @@ function Login() {
               type="password"
               placeholder="Password"
               className="input"
-              {...register("password", { required: true })}
+              {...register("password")}
             />
             {errors.password && (
               <p className="p-1 text-[13px] font-light text-orange-500">
@@ -84,12 +93,20 @@ function Login() {
             )}
           </label>
         </div>
-        <button
-          className="w-full rounded bg-[#e50914] py-3 font-semibold"
-          onClick={() => setLogin(true)}
-        >
-          Sign In
-        </button>
+        <div className="">
+          <button
+            className="w-full rounded bg-[#e50914] py-3 font-semibold mb-2"
+            onClick={() => setLogin(true)}
+          >
+            Sign In
+          </button>
+          <button
+            className="w-full rounded bg-[#1f75f8] py-3 font-semibold"
+            onClick={() => setGuest(true)}
+          >
+            Login as guest
+          </button>
+        </div>
 
         <div className="text-[gray]">
           New to Netflix?{" "}
